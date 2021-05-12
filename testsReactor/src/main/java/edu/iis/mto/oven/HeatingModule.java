@@ -1,6 +1,6 @@
 package edu.iis.mto.oven;
 
-public interface Heating {
+public interface HeatingModule {
 
     void termalCircuit(HeatingSettings settings) throws HeatingException;
 

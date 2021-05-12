@@ -7,16 +7,16 @@ import java.util.List;
 public class BakingProgram implements Iterable<ProgramStage> {
 
     private final int initialTemp;
-    private final List<ProgramStage> stage;
+    private final List<ProgramStage> stages;
 
     private BakingProgram(Builder builder) {
-        this.initialTemp = builder.initialTemp;
-        this.stage = builder.stage;
+        this.initialTemp = builder.initialTemp < 0 ? 0 : builder.initialTemp;
+        this.stages = builder.stages;
     }
 
     @Override
     public Iterator<ProgramStage> iterator() {
-        return List.copyOf(stage)
+        return List.copyOf(stages)
                    .iterator();
     }
 
@@ -31,7 +31,7 @@ public class BakingProgram implements Iterable<ProgramStage> {
     public static final class Builder {
 
         private int initialTemp;
-        private List<ProgramStage> stage = Collections.emptyList();
+        private List<ProgramStage> stages = Collections.emptyList();
 
         private Builder() {}
 
@@ -40,8 +40,8 @@ public class BakingProgram implements Iterable<ProgramStage> {
             return this;
         }
 
-        public Builder withStage(List<ProgramStage> stage) {
-            this.stage = stage;
+        public Builder withStages(List<ProgramStage> stages) {
+            this.stages = stages;
             return this;
         }
 

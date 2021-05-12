@@ -1,5 +1,7 @@
 package edu.iis.mto.oven;
 
+import static java.util.Objects.requireNonNull;
+
 public class ProgramStage {
 
     private final int targetTemp;
@@ -7,9 +9,9 @@ public class ProgramStage {
     private final HeatType heat;
 
     private ProgramStage(Builder builder) {
-        this.targetTemp = builder.targetTemp;
-        this.stageTime = builder.stageTime;
-        this.heat = builder.heat;
+        this.targetTemp = requireNonNull(builder.targetTemp);
+        this.stageTime = requireNonNull(builder.stageTime);
+        this.heat = requireNonNull(builder.heat);
     }
 
     public int getTargetTemp() {
