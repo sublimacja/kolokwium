@@ -48,7 +48,7 @@ class OvenTest {
     }
 
     @Test
-    void heatTypeGrillShouldCalledGrillMethod()
+    void heatTypeGrillShouldCallGrillMethod()
     {
        heatingSettings = settingsBuilder().build();
        List<ProgramStage> stages = new ArrayList<>();
@@ -57,6 +57,17 @@ class OvenTest {
        oven.start(bakingProgram);
        verify(heatingModule).grill(heatingSettings);
 
+    }
+
+    @Test
+    void heatTypeOtherThanGrillShouldCallHeatherMethod()
+    {
+        heatingSettings = settingsBuilder().build();
+        List<ProgramStage> stages = new ArrayList<>();
+        stages.add(programStageBuilder().withHeat(HeatType.HEATER).build());
+        bakingProgram = bakingProgramBuilder().withStages(stages).build();
+        oven.start(bakingProgram);
+        verify(heatingModule).heater(heatingSettings);
     }
 
     private BakingProgram.Builder bakingProgramBuilder() {
