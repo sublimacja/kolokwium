@@ -3,8 +3,7 @@ package edu.iis.mto.oven;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +44,18 @@ class OvenTest {
         bakingProgram = bakingProgramBuilder().build();
         doThrow(HeatingException.class).when(heatingModule).termalCircuit(heatingSettings);
         assertThrows(OvenException.class, () -> oven.start(bakingProgram));
+
+    }
+
+    @Test
+    void heatTypeGrillShouldCalledGrillMethod()
+    {
+       heatingSettings = settingsBuilder().build();
+       List<ProgramStage> stages = new ArrayList<>();
+       stages.add(programStageBuilder().withHeat(HeatType.GRILL).build());
+       bakingProgram = bakingProgramBuilder().withStages(stages).build();
+       oven.start(bakingProgram);
+       verify(heatingModule).grill(heatingSettings);
 
     }
 
