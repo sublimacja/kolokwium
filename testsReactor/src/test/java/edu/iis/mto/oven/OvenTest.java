@@ -1,6 +1,7 @@
 package edu.iis.mto.oven;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -55,6 +56,7 @@ class OvenTest {
        stages.add(programStageBuilder().withHeat(HeatType.GRILL).build());
        bakingProgram = bakingProgramBuilder().withStages(stages).build();
        oven.start(bakingProgram);
+        verify(fan,times(1)).off();
        verify(heatingModule).grill(heatingSettings);
 
     }
@@ -68,7 +70,12 @@ class OvenTest {
         bakingProgram = bakingProgramBuilder().withStages(stages).build();
         oven.start(bakingProgram);
         verify(heatingModule).heater(heatingSettings);
+        verify(fan,times(1)).off();
+        assertEquals(100,heatingSettings.getTargetTemp());
+        assertEquals(30,heatingSettings.getTimeInMinutes());
     }
+
+
 
     private BakingProgram.Builder bakingProgramBuilder() {
         int initialTemp = 0;
